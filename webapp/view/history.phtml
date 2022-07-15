@@ -1,0 +1,38 @@
+<?php require(PROJECT_DIR . '/controller/module/header.php'); ?>
+<div class="log">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 pt-5 pb-4">
+        <h1><?php echo _('History'); ?></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-sm-12"></div>
+      <div class="col-lg-9 col-sm-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><?php echo _('Date'); ?></th>
+              <th class="text-center"><?php echo _('Profiles'); ?></th>
+              <th class="text-center"><?php echo _('Listings'); ?></th>
+              <th class="text-center"><?php echo _('Online'); ?></th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($log as $date => $value) { ?>
+            <tr>
+              <tr>
+                <td><?php echo $date ?></td>
+                <td class="text-center"><?php echo $value['listings']; ?></td>
+                <td class="text-center"><?php echo $value['profiles']; ?></td>
+                <td class="text-center"><?php echo $value['online']; ?></td>
+              </tr>
+            </tr>
+          <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<?php require(PROJECT_DIR . '/controller/module/footer.php'); ?>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="<?php echo PROJECT_HOST; ?>" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="<?php echo _('Active and live OpenBazaar Network search and analytics'); ?>" />
+    <link rel="stylesheet" href="css/bootstrap.min.css<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>'" />
+    <link rel="stylesheet" href="css/fancybox.min.css<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>" />
+    <link rel="stylesheet" href="css/common.min.css<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>" />
+    <?php if (isset($_styles)) { ?>
+    <?php foreach ($_styles as $style) { ?>
+    <link rel="stylesheet" href="<?php echo $style; ?><?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>" />
+    <?php } ?>
+    <?php } ?>
+    <script src="js/jquery.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/fancybox.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/popper.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/bootstrap.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/chart.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/common.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <?php if (isset($_scripts)) { ?>
+    <?php foreach ($_scripts as $script) { ?>
+    <script src="<?php echo $script; ?><?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <?php } ?>
+    <?php } ?>
+    <title><?php echo $_title; ?></title>
+  </head>
+  <body>
+    <div class="module-header pt-3 pb-2 border-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-sm-12">
+            <a href="<?php echo PROJECT_HOST; ?>" class="logo">OpenBazaar <sup>info</sup></a>
+          </div>
+          <div class="col-lg-9 col-sm-12">
+            <?php require(PROJECT_DIR . '/controller/module/search.php'); ?>
+          </div>
+        </div>
+      </div>
+    </div>

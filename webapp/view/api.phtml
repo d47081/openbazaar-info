@@ -1,0 +1,928 @@
+<?php require(PROJECT_DIR . '/controller/module/header.php'); ?>
+<div class="api">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 pt-5 pb-4">
+        <h1><?php echo _('API Documentation'); ?></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+        <strong><?php echo _('Profile'); ?></strong>
+        <ul class="mt-2">
+          <li><a href="api#profile-info"><?php echo _('Info'); ?></a></li>
+          <li><a href="api#profile-connections"><?php echo _('Connections'); ?></a></li>
+          <li><a href="api#profile-contacts"><?php echo _('Contacts'); ?></a></li>
+          <li><a href="api#profile-followers"><?php echo _('Followers'); ?></a></li>
+          <li><a href="api#profile-following"><?php echo _('Following'); ?></a></li>
+          <li><a href="api#profile-listings"><?php echo _('Listings'); ?></a></li>
+          <li><a href="api#profile-ratings"><?php echo _('Ratings'); ?></a></li>
+        </ul>
+        <strong><?php echo _('Listing'); ?></strong>
+        <ul class="mt-2">
+          <li><a href="api#listing-info"><?php echo _('Info'); ?></a></li>
+          <li><a href="api#listing-moderators"><?php echo _('Moderators'); ?></a></li>
+          <li><a href="api#listing-shippings"><?php echo _('Shippings'); ?></a></li>
+        </ul>
+        <strong><?php echo _('Search'); ?></strong>
+        <ul class="mt-2">
+          <li><a href="api#search-listings"><?php echo _('Listings'); ?></a></li>
+          <li><a href="api#search-profiles"><?php echo _('Profiles'); ?></a></li>
+        </ul>
+        <strong><?php echo _('Search Filters'); ?></strong>
+        <ul class="mt-2">
+          <li><a href="api#search-filters-countries"><?php echo _('Countries'); ?></a></li>
+          <li><a href="api#search-filters-conditions"><?php echo _('Conditions'); ?></a></li>
+          <li><a href="api#search-filters-moderators"><?php echo _('Moderators'); ?></a></li>
+          <li><a href="api#search-filters-protected"><?php echo _('Protected'); ?></a></li>
+          <li><a href="api#search-filters-ratings"><?php echo _('Ratings'); ?></a></li>
+          <li><a href="api#search-filters-types"><?php echo _('Types'); ?></a></li>
+        </ul>
+        <strong><?php echo _('Extensions'); ?></strong>
+        <ul class="mt-2">
+          <li><a href="api#extensions-list"><?php echo _('List'); ?></a></li>
+        </ul>
+        <strong><?php echo _('Tools'); ?></strong>
+        <ul class="mt-2">
+          <li><a href="api#tools-image"><?php echo _('Image'); ?></a></li>
+        </ul>
+      </div>
+      <div class="col-lg-9 col-sm-12">
+        <h2 class="mb-4"><?php echo _('Profile'); ?></h2>
+        <div>
+          <a id="profile-info"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Info'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/profile'); ?></code></p>
+          <p><?php echo _('Returns profile data.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>peerId</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{peerId}</i></code>
+              -
+              <?php echo _('Profile Peer ID'); ?>
+            </small>
+          </p>
+          <div id="apiProfileInfo" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiProfileInfoForm" method="get" action="api/profile?peerId=<?php echo OB_PEER_ID; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiProfileInfoRequest"
+                       onkeyup="$('#apiProfileInfo').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/profile?peerId=<?php echo OB_PEER_ID; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/profile?peerId=<?php echo OB_PEER_ID; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiProfileInfo');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="profile-connections"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Connections'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/profile/connections'); ?></code></p>
+          <p><?php echo _('Returns an array of profile connections.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>peerId</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{peerId}</i></code>
+              -
+              <?php echo _('Profile Peer ID'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>page</strong></code>
+              <span class="badge badge-default border ml-1">int</span>
+              <code><i>[{n}]</i></code>
+              -
+              <?php echo _('Page number'); ?>
+            </small>
+          </p>
+          <div id="apiProfileConnections" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiProfileConnectionsForm" method="get" action="api/profile/connections?peerId=<?php echo OB_PEER_ID; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiProfileConnectionsRequest"
+                       onkeyup="$('#apiProfileConnections').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/profile/connections?peerId=<?php echo OB_PEER_ID; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/profile/connections?peerId=<?php echo OB_PEER_ID; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiProfileConnections');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="profile-contacts"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Contacts'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/profile/contacts'); ?></code></p>
+          <p><?php echo _('Returns an array of profile contacts.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>peerId</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{peerId}</i></code>
+              -
+              <?php echo _('Profile Peer ID'); ?>
+            </small>
+          </p>
+          <div id="apiProfileContacts" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiProfileContactsForm" method="get" action="api/profile/contacts?peerId=<?php echo OB_PEER_ID; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiProfileContactsRequest"
+                       onkeyup="$('#apiProfileContacts').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/profile/contacts?peerId=<?php echo OB_PEER_ID; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/profile/contacts?peerId=<?php echo OB_PEER_ID; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiProfileContacts');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="profile-followers"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Followers'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/profile/followers'); ?></code></p>
+          <p><?php echo _('Returns an array of profile followers.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>peerId</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{peerId}</i></code>
+              -
+              <?php echo _('Profile Peer ID'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>page</strong></code>
+              <span class="badge badge-default border ml-1">int</span>
+              <code><i>[{n}]</i></code>
+              -
+              <?php echo _('Page number'); ?>
+            </small>
+          </p>
+          <div id="apiProfileFollowers" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiProfileFollowersForm" method="get" action="api/profile/followers?peerId=<?php echo OB_PEER_ID; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiProfileFollowersRequest"
+                       onkeyup="$('#apiProfileFollowers').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/profile/followers?peerId=<?php echo OB_PEER_ID; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/profile/followers?peerId=<?php echo OB_PEER_ID; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiProfileFollowers');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="profile-following"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Following'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/profile/following'); ?></code></p>
+          <p><?php echo _('Returns an array of profile following.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>peerId</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{peerId}</i></code>
+              -
+              <?php echo _('Profile Peer ID'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>page</strong></code>
+              <span class="badge badge-default border ml-1">int</span>
+              <code><i>[{n}]</i></code>
+              -
+              <?php echo _('Page number'); ?>
+            </small>
+          </p>
+          <div id="apiProfileFollowing" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiProfileFollowingForm" method="get" action="api/profile/following?peerId=<?php echo OB_PEER_ID; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiProfileFollowingRequest"
+                       onkeyup="$('#apiProfileFollowing').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/profile/following?peerId=<?php echo OB_PEER_ID; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/profile/following?peerId=<?php echo OB_PEER_ID; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiProfileFollowing');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="profile-listings"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Listings'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/profile/listings'); ?></code></p>
+          <p><?php echo _('Returns an array of profile listings.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>peerId</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{peerId}</i></code>
+              -
+              <?php echo _('Profile Peer ID'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>page</strong></code>
+              <span class="badge badge-default border ml-1">int</span>
+              <code><i>[{n}]</i></code>
+              -
+              <?php echo _('Page number'); ?>
+            </small>
+          </p>
+          <div id="apiProfileListings" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiProfileListingsForm" method="get" action="api/profile/listings?peerId=<?php echo OB_PEER_ID; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiProfileListingsRequest"
+                       onkeyup="$('#apiProfileListings').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/profile/listings?peerId=<?php echo OB_PEER_ID; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/profile/listings?peerId=<?php echo OB_PEER_ID; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiProfileListings');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="profile-ratings"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Ratings'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/profile/ratings'); ?></code></p>
+          <p><?php echo _('Returns an array of profile ratings.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>peerId</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{peerId}</i></code>
+              -
+              <?php echo _('Profile Peer ID'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>page</strong></code>
+              <span class="badge badge-default border ml-1">int</span>
+              <code><i>[{n}]</i></code>
+              -
+              <?php echo _('Page number'); ?>
+            </small>
+          </p>
+          <div id="apiProfileRatings" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiProfileRatingsForm" method="get" action="api/profile/ratings?peerId=<?php echo OB_PEER_ID; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiProfileRatingsRequest"
+                       onkeyup="$('#apiProfileRatings').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/profile/ratings?peerId=<?php echo OB_PEER_ID; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/profile/ratings?peerId=<?php echo OB_PEER_ID; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiProfileRatings');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h2 class="mb-4"><?php echo _('Listing'); ?></h2>
+        <div>
+          <a id="listing-info"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Info'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/listing'); ?></code></p>
+          <p><?php echo _('Returns listing data.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>hash</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{hash}</i></code>
+              -
+              <?php echo _('Listing Hash'); ?>
+            </small>
+          </p>
+          <div id="apiListingInfo" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiListingInfoForm" method="get" action="api/listing?hash=<?php echo OB_PEER_LISTING_HASH; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiListingInfoRequest"
+                       onkeyup="$('#apiListingInfo').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/listing?hash=<?php echo OB_PEER_LISTING_HASH; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/listing?hash=<?php echo OB_PEER_LISTING_HASH; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiListingInfo');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="listing-moderators"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Moderators'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/listing/moderators'); ?></code></p>
+          <p><?php echo _('Returns an array of listing moderators.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>hash</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{hash}</i></code>
+              -
+              <?php echo _('Listing hash'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>page</strong></code>
+              <span class="badge badge-default border ml-1">int</span>
+              <code><i>[{n}]</i></code>
+              -
+              <?php echo _('Page number'); ?>
+            </small>
+          </p>
+          <div id="apiListingModerators" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiListingModeratorsForm" method="get" action="api/listing/moderators?hash=<?php echo OB_PEER_LISTING_HASH; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiListingModeratorsRequest"
+                       onkeyup="$('#apiListingModerators').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/listing/moderators?hash=<?php echo OB_PEER_LISTING_HASH; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/listing/moderators?hash=<?php echo OB_PEER_LISTING_HASH; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiListingModerators');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="listing-shippings"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Shippings'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/listing/shippings'); ?></code></p>
+          <p><?php echo _('Returns an array of listing shippings.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>hash</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{hash}</i></code>
+              -
+              <?php echo _('Listing hash'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>page</strong></code>
+              <span class="badge badge-default border ml-1">int</span>
+              <code><i>[{n}]</i></code>
+              -
+              <?php echo _('Page number'); ?>
+            </small>
+          </p>
+          <div id="apiListingShippings" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiListingShippingsForm" method="get" action="api/listing/shippings?hash=<?php echo OB_PEER_LISTING_HASH; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiListingShippingsRequest"
+                       onkeyup="$('#apiListingShippings').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/listing/shippings?hash=<?php echo OB_PEER_LISTING_HASH; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/listing/shippings?hash=<?php echo OB_PEER_LISTING_HASH; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiListingShippings');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h2 class="mb-4"><?php echo _('Search'); ?></h2>
+        <div>
+          <a id="search-listings"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Listings'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/listing'); ?></code></p>
+          <p><?php echo _('Returns an array of listings.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p><?php echo _('If at least one attribute is not passed, the output will be sorted by date.'); ?></p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <p>
+              <small>
+                <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                <?php if ($apiSearchParamValue['required']) { ?>
+                  <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                <?php } ?>
+                <?php if ($apiSearchParamValue['multiple']) { ?>
+                  <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                <?php } ?>
+                <?php if ($apiSearchParamValue['values']) { ?>
+                  <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                <?php } ?>
+                -
+                <?php echo $apiSearchParamValue['description']; ?>
+              </small>
+            </p>
+          <?php } ?>
+          <div id="apiSearchListings" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchListingsForm" method="get" action="api/search/listing?q=openbazaar" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchListingsRequest"
+                       onkeyup="$('#apiSearchListings').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/listing?q=openbazaar"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/listing?q=openbazaar" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchListings');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="search-profiles"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Profiles'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/profile'); ?></code></p>
+          <p><?php echo _('Returns an array of profiles.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p><?php echo _('If at least one attribute is not passed, the output will be sorted by date.'); ?></p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <?php if (!in_array($apiSearchParam, ['lc','lt'])) { ?>
+              <p>
+                <small>
+                  <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                  <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                  <?php if ($apiSearchParamValue['required']) { ?>
+                    <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['multiple']) { ?>
+                    <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['values']) { ?>
+                    <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                  <?php } ?>
+                  -
+                  <?php echo $apiSearchParamValue['description']; ?>
+                </small>
+              </p>
+            <?php } ?>
+          <?php } ?>
+          <div id="apiSearchProfiles" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchProfilesForm" method="get" action="api/search/profile?q=openbazaar" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchProfilesRequest"
+                       onkeyup="$('#apiSearchProfiles').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/profile?q=openbazaar"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/profile?q=openbazaar" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchProfiles');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h2 class="mb-4"><?php echo _('Search Filters'); ?></h2>
+        <div>
+          <a id="search-filters-countries"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Countries'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/filters/countries'); ?></code></p>
+          <p><?php echo _('Returns an array of available countries.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>t</strong></code>
+              <span class="badge badge-default border ml-1 mr-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>[listing|profile]</i></code>
+              -
+              <?php echo _('Filter type'); ?>
+            </small>
+          </p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <?php if (!in_array($apiSearchParam, ['s','o','p'])) { ?>
+              <p>
+                <small>
+                  <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                  <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                  <?php if ($apiSearchParamValue['required']) { ?>
+                    <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['multiple']) { ?>
+                    <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['values']) { ?>
+                    <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                  <?php } ?>
+                  -
+                  <?php echo $apiSearchParamValue['description']; ?>
+                  <?php if ($apiSearchParamValue['listing'] && !$apiSearchParamValue['profile']) { ?>
+                    <sup><i><?php echo _('Listing mode only'); ?></i></sup>
+                  <?php } ?>
+                  <?php if (!$apiSearchParamValue['listing'] && $apiSearchParamValue['profile']) { ?>
+                    <?php echo _('(Profile mode only)'); ?>
+                  <?php } ?>
+                </small>
+              </p>
+            <?php } ?>
+          <?php } ?>
+          <div id="apiSearchFiltersCountries" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchFiltersCountriesForm" method="get" action="api/search/filters/countries?t=listing" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchFiltersCountriesRequest"
+                       onkeyup="$('#apiSearchFiltersCountries').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/filters/countries?t=listing"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/filters/countries?t=listing" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchFiltersCountries');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="search-filters-conditions"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Conditions'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/filters/conditions'); ?></code></p>
+          <p><?php echo _('Returns an array of available listing conditions.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <?php if (!in_array($apiSearchParam, ['s','o','p'])) { ?>
+              <p>
+                <small>
+                  <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                  <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                  <?php if ($apiSearchParamValue['required']) { ?>
+                    <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['multiple']) { ?>
+                    <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['values']) { ?>
+                    <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                  <?php } ?>
+                  -
+                  <?php echo $apiSearchParamValue['description']; ?>
+                </small>
+              </p>
+            <?php } ?>
+          <?php } ?>
+          <div id="apiSearchFiltersConditions" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchFiltersConditionsForm" method="get" action="api/search/filters/conditions?q=openbazaar" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchFiltersConditionsRequest"
+                       onkeyup="$('#apiSearchFiltersConditions').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/filters/conditions?q=openbazaar"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/filters/conditions?q=openbazaar" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchFiltersConditions');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="search-filters-moderators"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Moderators'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/filters/moderators'); ?></code></p>
+          <p><?php echo _('Returns profile moderators summary.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <?php if (!in_array($apiSearchParam, ['lc','lt','s','o','p'])) { ?>
+              <p>
+                <small>
+                <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                <?php if ($apiSearchParamValue['required']) { ?>
+                  <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                <?php } ?>
+                <?php if ($apiSearchParamValue['multiple']) { ?>
+                  <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                <?php } ?>
+                <?php if ($apiSearchParamValue['values']) { ?>
+                  <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                <?php } ?>
+                -
+                <?php echo $apiSearchParamValue['description']; ?>
+                </small>
+              </p>
+            <?php } ?>
+          <?php } ?>
+          <div id="apiSearchFiltersModerators" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchFiltersModeratorsForm" method="get" action="api/search/filters/moderators?q=openbazaar" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchFiltersModeratorsRequest"
+                       onkeyup="$('#apiSearchFiltersModerators').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/filters/moderators?q=openbazaar"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/filters/moderators?q=openbazaar" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchFiltersModerators');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="search-filters-protected"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Protected'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/filters/protected'); ?></code></p>
+          <p><?php echo _('Returns listing protected summary.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <?php if (!in_array($apiSearchParam, ['s','o','p'])) { ?>
+              <p>
+                <small>
+                  <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                  <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                  <?php if ($apiSearchParamValue['required']) { ?>
+                    <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['multiple']) { ?>
+                    <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['values']) { ?>
+                    <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                  <?php } ?>
+                  -
+                  <?php echo $apiSearchParamValue['description']; ?>
+                </small>
+              </p>
+            <?php } ?>
+          <?php } ?>
+          <div id="apiSearchFiltersProtected" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchFiltersProtectedForm" method="get" action="api/search/filters/protected?q=openbazaar" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchFiltersProtectedRequest"
+                       onkeyup="$('#apiSearchFiltersProtected').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/filters/protected?q=openbazaar"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/filters/protected?q=openbazaar" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchFiltersProtected');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="search-filters-ratings"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Ratings'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/filters/ratings'); ?></code></p>
+          <p><?php echo _('Returns profile or merchant ratings.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>t</strong></code>
+              <span class="badge badge-default border ml-1 mr-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>[listing|profile]</i></code>
+              -
+              <?php echo _('Filter type'); ?>
+            </small>
+          </p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <?php if (!in_array($apiSearchParam, ['s','o','p'])) { ?>
+              <p>
+                <small>
+                  <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                  <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                  <?php if ($apiSearchParamValue['required']) { ?>
+                    <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['multiple']) { ?>
+                    <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['values']) { ?>
+                    <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                  <?php } ?>
+                  -
+                  <?php echo $apiSearchParamValue['description']; ?>
+                </small>
+              </p>
+            <?php } ?>
+          <?php } ?>
+          <div id="apiSearchFiltersRatings" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchFiltersRatingsForm" method="get" action="api/search/filters/ratings?t=listing" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchFiltersRatingsRequest"
+                       onkeyup="$('#apiSearchFiltersRatings').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/filters/ratings?t=listing"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/filters/ratings?t=listing" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchFiltersRatings');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <a id="search-filters-types"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Types'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/search/filters/types'); ?></code></p>
+          <p><?php echo _('Returns an array of available listing types.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <?php foreach ($apiSearchParams as $apiSearchParam => $apiSearchParamValue) { ?>
+            <?php if (!in_array($apiSearchParam, ['s','o','p'])) { ?>
+              <p>
+                <small>
+                  <code><strong><?php echo $apiSearchParam; ?></strong></code>
+                  <span class="badge badge-default border ml-1"><?php echo $apiSearchParamValue['type']; ?></span>
+                  <?php if ($apiSearchParamValue['required']) { ?>
+                    <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['multiple']) { ?>
+                    <i class="badge badge-default border text-primary"><?php echo _('multiple'); ?></i>
+                  <?php } ?>
+                  <?php if ($apiSearchParamValue['values']) { ?>
+                    <code><i>[<?php echo implode('|', $apiSearchParamValue['values']); ?>]</i></code>
+                  <?php } ?>
+                  -
+                  <?php echo $apiSearchParamValue['description']; ?>
+                </small>
+              </p>
+            <?php } ?>
+          <?php } ?>
+          <div id="apiSearchFiltersTypes" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiSearchFiltersTypesForm" method="get" action="api/search/filters/types?q=openbazaar" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiSearchFiltersTypesRequest"
+                       onkeyup="$('#apiSearchFiltersTypes').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/search/filters/types?q=openbazaar"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/filters/types?q=openbazaar" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiSearchFiltersTypes');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h2 class="mb-4"><?php echo _('Extensions'); ?></h2>
+        <div>
+          <a id="extensions-list"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('List'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/extensions/list'); ?></code></p>
+          <p><?php echo _('Returns OpenBazaar extensions list.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>clientVersion</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{clientVersion}</i></code>
+              -
+              <?php echo _('Client version'); ?>
+            </small>
+          </p>
+          <p>
+            <small>
+              <code><strong>serverVersion</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{serverVersion}</i></code>
+              -
+              <?php echo _('Server version'); ?>
+            </small>
+          </p>
+          <div id="apiExtensionsList" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiExtensionsListForm" method="get" action="api/extensions/list?clientVersion=2.4.3&serverVersion=0.14.1" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiExtensionsListRequest"
+                       onkeyup="$('#apiExtensionsList').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/extensions/list?clientVersion=2.4.3&serverVersion=0.14.1"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/search/filters/types?q=openbazaar" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(false, '#apiExtensionsList');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h2 class="mb-4"><?php echo _('Tools'); ?></h2>
+        <div>
+          <a id="tools-image"></a>
+          <h3 class="pb-3 mb-3 border-bottom"><span class="badge badge-success mr-2">GET</span><?php echo _('Image'); ?></h3>
+          <p><code><?php echo PROJECT_HOST . _('/api/image'); ?></code></p>
+          <p><?php echo _('Returns image by hash.'); ?></p>
+          <p><strong><?php echo _('Params'); ?></strong></p>
+          <p>
+            <small>
+              <code><strong>hash</strong></code>
+              <span class="badge badge-default border ml-1">string</span>
+              <strong class="badge badge-default border text-danger"><?php echo _('required'); ?></strong>
+              <code><i>{hash}</i></code>
+              -
+              <?php echo _('Image hash'); ?>
+            </small>
+          </p>
+          <div id="apiToolsImage" class="mb-5">
+            <p><strong><?php echo _('Response'); ?></strong></p>
+            <form name="apiToolsImageForm" method="get" action="api/image?hash=<?php echo OB_IMAGE_HASH; ?>" onsubmit="$(this).find('div.btn').click();return false;">
+              <div class="input-group mb-2">
+                <input class="form-control form-control-sm"
+                       type="text"
+                       name="apiToolsImageRequest"
+                       onkeyup="$('#apiToolsImage').find('a').attr('href', $(this).val())"
+                       value="<?php echo PROJECT_HOST; ?>/api/image?hash=<?php echo OB_IMAGE_HASH; ?>"
+                       placeholder="<?php echo _('Enter your query...'); ?>" />
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-default text-secondary" href="api/image?hash=<?php echo OB_IMAGE_HASH; ?>" target="_blank"><span class="material-icons">open_in_new</span></a>
+                  <div class="btn btn-sm btn-primary" onclick="API.showGetResponse(true, '#apiToolsImage');"><?php echo _('Execute'); ?></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php require(PROJECT_DIR . '/controller/module/footer.php'); ?>

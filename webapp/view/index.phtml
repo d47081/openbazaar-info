@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="<?php echo PROJECT_HOST; ?>" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="<?php echo _('Active and Live OpenBazaar Network Search and Analytics'); ?>" />
+    <link rel="stylesheet" href="css/bootstrap.min.css<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>" />
+    <link rel="stylesheet" href="css/fancybox.min.css<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>" />
+    <link rel="stylesheet" href="css/jqvmap.min.css<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>" />
+    <link rel="stylesheet" href="css/common.min.css<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>" />
+    <script src="js/jquery.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/fancybox.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/bootstrap.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/jquery.vmap.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/maps/jquery.vmap.world.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/common.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <script src="js/main.min.js<?php echo (APP_SCRIPTS_UPDATE ? '?up=' . APP_SCRIPTS_UPDATE : false); ?>"></script>
+    <title><?php echo sprintf(_('%s - Active and live OpenBazaar Network search and analytics'), PROJECT_NAME); ?></title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1><a href="<?php echo PROJECT_HOST; ?>" class="logo">OpenBazaar <sup>info</sup></a></h1>
+            <h2 class="text-secondary"><?php echo _('Active and live OpenBazaar Network search and analytics.'); ?></h2>
+          </div>
+          <div class="col-12">
+            <?php require(PROJECT_DIR . '/controller/module/search.php'); ?>
+          </div>
+          <div class="col-12">
+            <div id="mainVmap" class="vmap" data-values="<?php echo $mainLocations; ?>"></div>
+          </div>
+          <div class="col-12 text-center pt-3 pb-5">
+            <small class="text-secondary border-top pt-2 pl-3 pr-3 pb-2">
+              <a href="#terms" data-fancybox data-src="#terms" class="mr-1 ml-1"><?php echo _('Terms'); ?></a> | <a href="#interact" data-fancybox data-src="#interact" class="mr-1 ml-1"><?php echo _('Interact'); ?></a> | <a href="api" class="mr-1 ml-1"><?php echo _('API'); ?></a> | <a href="https://www.reddit.com/r/OpenBazaarInfo" class="mr-1 ml-1"><?php echo _('Community'); ?></a> | <a href="#contact" data-fancybox data-src="#contact" class="ml-1 mr-1"><?php echo _('Contact'); ?></a>
+            </small>
+            <div class="terms" id="terms">
+              <p><strong><?php echo _('Terms of Service'); ?></strong></p>
+              <p><?php echo _('By using this site or entering any search request, you affirm that you are an individual, at least 18 years of age or older.'); ?></p>
+              <p><?php echo _('We make search and analytics tools for openbazaar network but do not provide any support or warranties for provided content and do not process any payments. Full responsibility for third party content of this site remains with the author\'s of such content.'); ?></p>
+            </div>
+            <div class="interact" id="interact">
+              <div class="row">
+                <div class="col-lg-4 col-sm-12 p-0">
+                  <div class="col-12">
+                    <p><strong><?php echo _('Chat'); ?></strong></p>
+                  </div>
+                  <div class="col-12 border-bottom mb-3">
+                    <p><small>@<a href="ob://<?php echo OB_PEER_ID; ?>" class="ml-1"><code><?php echo OB_PEER_ID; ?></code></a></small></p>
+                  </div>
+                  <div class="col-12">
+                    <p><small><?php echo _('<code><strong>#help</strong></code><br />Supported commands & options'); ?></small></p>
+                    <p><small><strong><?php echo _('Node index tools'); ?></strong></small></p>
+                    <p><small><?php echo _('<code><strong>#index</strong></code><br />Index profile and listings'); ?></small></p>
+                    <p><small><strong><?php echo _('Search results tracking'); ?></strong></small></p>
+                    <p><small><?php echo _('<code><strong>#subscriptions <i>list|flush</i></strong></code><br />Show or Delete all subscriptions'); ?></small></p>
+                    <p><small><?php echo _('<code><strong>#subscribe <i>{url}|{url} [{int} hour(s)|day(s)|week(s)|month(s)]</i></strong></code><br />Add or Update subscription by search URL. Expiration time optionally supported'); ?></small></p>
+                    <p><small><?php echo _('<code><strong>#unsubscribe <i>{url}</i></strong></code><br />Unsubscribe from URL'); ?></small></p>
+                    <p><small><strong><?php echo _('Extensions management (Experimental)'); ?></strong></small></p>
+                    <p><small><?php echo _('<code><strong>#extensions <i>list</i></strong></code><br />Get own extensions list'); ?></small></p>
+                    <p><small><?php echo _('<code><strong>#extension <i>add|update|delete</i> {extension.json}</strong></code><br />Add, Update or Delete own extension'); ?></small></p>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-sm-12">
+                  <div class="row">
+                    <div class="col-12 border-bottom mb-3">
+                      <p><strong><?php echo _('Search'); ?></strong></p>
+                      <p><small><?php echo _('Provider URL:'); ?> <a href="ob://search/listings?providerQ=<?php echo urlencode(PROJECT_HOST); ?>"><code><?php echo PROJECT_HOST; ?></code></a></small></p>
+                    </div>
+                    <div class="col-lg-7 col-xs-12">
+                      <p><small><strong><?php echo _('Listings'); ?></strong></small></p>
+                      <p>
+                        <small><code><strong>ps=<i>online|active|passive</i></strong></code></small><br />
+                        <small><?php echo _('Filter by owner activity'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>lf=<i>{country_code_iso_2}|...</i></strong></code></small><br />
+                        <small><?php echo _('Listing location from'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>tor=<i>true|false</i></strong></code></small><br />
+                        <small><?php echo _('TOR status'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>lt=<i>service|physical-good|digital-good|cryptocurrency</i></strong></code></small><br />
+                        <small><?php echo _('Listing type'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>lc=<i>used|new|used-good|used-excelent|used-poor|refurbished</i></strong></code></small><br />
+                        <small><?php echo _('Listing condition'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>id=<i>{peerID}|...</i></strong></code></small><br />
+                        <small><?php echo _('Owner\'s peerID'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>pr=<i>1|2|3|4|5</i></strong></code></small><br />
+                        <small><?php echo _('Average owner rating'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>m=<i>true|false</i></strong></code></small><br />
+                        <small><?php echo _('Moderation status'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>s=<i>relevance|online|added|price</i></strong></code></small><br />
+                        <small><?php echo _('Sort mode'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>o=<i>asc|desc</i></strong></code></small><br />
+                        <small><?php echo _('Sort order'); ?></small>
+                      </p>
+                    </div>
+                    <div class="col-lg-5 col-xs-12">
+                      <p><small><strong><?php echo _('Profiles'); ?></strong></small></p>
+                      <p>
+                        <small><code><strong>ps=<i>online|active|passive</i></strong></code></small><br />
+                        <small><?php echo _('Filter by profile activity'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>lf=<i>{country_code_iso_2}|...</i></strong></code></small><br />
+                        <small><?php echo _('Profile location from'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>tor=<i>true|false</i></strong></code></small><br />
+                        <small><?php echo _('TOR status'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>id=<i>{peerID}|...</i></strong></code></small><br />
+                        <small><?php echo _('Profile peerID'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>pr=<i>1|2|3|4|5</i></strong></code></small><br />
+                        <small><?php echo _('Average profile rating'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>m=<i>true|false</i></strong></code></small><br />
+                        <small><?php echo _('Moderator status'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>s=<i>relevance|online|added</i></strong></code></small><br />
+                        <small><?php echo _('Sort mode'); ?></small>
+                      </p>
+                      <p>
+                        <small><code><strong>o=<i>asc|desc</i></strong></code></small><br />
+                        <small><?php echo _('Sort order'); ?></small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="contact" id="contact">
+              <div class="row m-0">
+                <div class="col-12 p-0">
+                  <p><strong><?php echo _('Contacts'); ?></strong></p>
+                </div>
+              </div>
+              <div class="row border-bottom m-0">
+                <div class="col-lg-2 col-xs-12 p-0 pb-3">
+                  <img src="image/qr.png" alt="logo" />
+                </div>
+                <div class="col-lg-10 col-xs-12 p-0">
+                  <p>
+                    <?php echo _('We process all messages through our Official Node'); ?>
+                    <code class="text-dark">@<a href="<?php echo 'ob://' . OB_PEER_ID; ?>" class="ml-1"><?php echo OB_PEER_ID; ?></a></code>
+                  </p>
+                </div>
+              </div>
+              <div class="row pt-4 m-0">
+                <div class="col-12 p-0" id="contactForm">
+                  <form name="contact" action="/" method="POST">
+                    <div class="form-group">
+                      <div><label for="contactPeerId"><?php echo _('Peer ID'); ?> <span class="text-secondary"><?php echo _('(optional)'); ?></span></label></div>
+                      <input name="peerid" type="text" class="form-control" id="contactPeerId" />
+                    </div>
+                    <div class="form-group">
+                      <label for="contactMessage"><?php echo _('Message'); ?></label>
+                      <textarea name="message" class="form-control" id="contactMessage" rows="3"></textarea>
+                    </div>
+                    <div class="btn btn-primary" id="contactSubmit"><?php echo _('Send'); ?></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<?php require(PROJECT_DIR . '/controller/module/footer.php'); ?>

@@ -1,0 +1,22 @@
+<?php require(PROJECT_DIR . '/controller/module/header.php'); ?>
+<div class="search-profile">
+  <div class="container mt-3 mb-3">
+    <div class="row">
+      <div class="col-lg-3 col-sm-12"></div>
+      <div class="col-lg-9 col-sm-12" id="searchProfileContainer">
+        <div id="searchProfileLoading" class="text-center pt-5 pb-5 d-none">
+          <div class="spinner-grow text-primary" role="status">
+            <span class="sr-only"><?php echo _('Loading...'); ?></span>
+          </div>
+        </div>
+        <div id="searchProfileData"></div>
+        <div class="text-center">
+          <div id="searchProfileLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Search.profile.load('#searchProfileData', '#searchProfileLoad', false)">
+            <?php echo _('Show more'); ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php require(PROJECT_DIR . '/controller/module/footer.php'); ?>

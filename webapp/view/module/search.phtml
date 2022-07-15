@@ -1,0 +1,28 @@
+<div class="module-search">
+  <form name="search" action="search" method="get">
+    <div class="form-row align-items-center">
+      <div class="col-md">
+        <input name="q" type="text" class="form-control mb-2 pr-4 pl-3" placeholder="<?php echo $module_header_form_search_placeholder; ?>" value="<?php echo $module_header_form_search_q; ?>" />
+        <input name="s" type="hidden" value="<?php echo $module_header_form_search_s; ?>" />
+        <input name="o" type="hidden" value="<?php echo $module_header_form_search_o; ?>" />
+        <input name="m" type="hidden" value="<?php echo $module_header_form_search_m; ?>" />
+        <input name="ps" type="hidden" value="<?php echo $module_header_form_search_ps; ?>" />
+        <input name="pr" type="hidden" value="<?php echo $module_header_form_search_pr; ?>" />
+        <input name="lf" type="hidden" value="<?php echo $module_header_form_search_lf; ?>" />
+        <input name="lc" type="hidden" value="<?php echo $module_header_form_search_lc; ?>" />
+        <input name="lt" type="hidden" value="<?php echo $module_header_form_search_lt; ?>" />
+        <input name="id" type="hidden" value="<?php echo $module_header_form_search_id; ?>" />
+        <input name="tor" type="hidden" value="<?php echo $module_header_form_search_tor; ?>" />
+      </div>
+      <div class="col-auto">
+        <select name="t" class="custom-select mb-2">
+          <option value="listing"<?php echo ($module_header_form_search_t == 'listing' ? ' selected="selected"' : false); ?>><?php echo _('Listing'); ?></option>
+          <option value="profile"<?php echo ($module_header_form_search_t == 'profile' ? ' selected="selected"' : false); ?>><?php echo _('Profile'); ?></option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-2"><?php echo _('Search'); ?></button>
+      </div>
+    </div>
+  </form>
+</div>

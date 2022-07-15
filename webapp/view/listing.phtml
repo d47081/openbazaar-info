@@ -1,0 +1,220 @@
+<?php require(PROJECT_DIR . '/controller/module/header.php'); ?>
+<div class="listing">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 pt-5 pb-4">
+        <h1><?php echo $title; ?></h1>
+        <h2>
+          <?php echo _('by'); ?>
+          <i class="online material-icons <?php echo $online['class']; ?>" title="<?php echo $online['text']; ?>">lens</i>
+          <a href="profile/<?php echo $peerId; ?>"><?php echo $name; ?></a>
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+        <div class="text-center bg-light bg-light mt-1 mb-3 pt-3 pb-3 pl-3 pr-3 rounded price">
+          <div class="text-success"><?php echo $price; ?></div>
+          <div class="text-uppercase"><small><?php echo $condition; ?></small></div>
+          <div class="text-muted"><small><?php echo $contractType; ?></small></div>
+          <a class="btn btn-sm mt-2 mb-2 pl-3 pr-3 <?php echo $payment['class']; ?>" title="<?php echo $payment['title']; ?>" href="<?php echo $href['ob']; ?>">
+            <?php if ($payment['class'] == 'btn-primary') { ?>
+              <i class="material-icons">security</i>
+            <?php } else if ($payment['class'] == 'btn-danger') { ?>
+              <i class="material-icons">warning</i>
+            <?php } ?>
+            <?php echo _('Buy'); ?>
+          </a>
+        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="pl-0 pt-1 pb-1 border-0" scope="row"><?php echo _('Discovered'); ?></th>
+              <td class="pt-1 pb-1 border-0"><?php echo $added; ?></td>
+            </tr>
+            <?php if ($updatedIpns) { ?>
+              <tr>
+                <th class="pl-0 pt-1 pb-1 border-0" scope="row"><?php echo _('Updated IPNS'); ?></th>
+                <td class="pt-1 pb-1 border-0"><?php echo $updatedIpns; ?></td>
+              </tr>
+            <?php } ?>
+            <?php if ($updatedIpfs) { ?>
+              <tr>
+                <th class="pl-0 pt-1 pb-1 border-0" scope="row"><?php echo _('Updated IPFS'); ?></th>
+                <td class="pt-1 pb-1 border-0"><?php echo $updatedIpfs; ?></td>
+              </tr>
+            <?php } ?>
+            <tr>
+              <th class="pl-0 pt-1 pb-1 border-0" scope="row"><?php echo _('Indexed'); ?></th>
+              <td class="pt-1 pb-1 border-0"><?php echo $indexed; ?></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-lg-9 col-sm-12">
+        <?php if ($description) { ?>
+          <div class="description<?php echo (mb_strlen($description, 'UTF-8') > LISTING_DESCRIPTION_COLLAPSE_LENGHT ? ' collapsed' : false); ?>" id="listingDescription">
+            <div class="description-text mb-3 mt-1">
+              <strong><?php echo _('Description'); ?></strong><br />
+              <?php echo $description; ?>
+              <div class="overlay"></div>
+            </div>
+            <div class="btn btn-secondary mb-4 pl-0 pr-0 pt-0 pb-0" onclick="$('#listingDescription').removeClass('collapsed');"><?php echo _('Show more'); ?><i class="material-icons">keyboard_arrow_down</i></div>
+          </div>
+        <?php } ?>
+        <?php if ($listingOptions) { ?>
+          <div class="options">
+            <div class="mb-3 mt-1 d-none" id="listingOptions">
+              <?php foreach ($listingOptions as $option => $values) { ?>
+                <strong><?php echo $option; ?></strong><br />
+                <ul>
+                  <?php foreach ($values as $value) { ?>
+                    <li><?php echo $value; ?></li>
+                  <?php } ?>
+                </ul>
+              <?php } ?>
+            </div>
+            <div class="btn btn-secondary mb-4 pl-0 pr-0 pt-0 pb-0" onclick="$(this).remove();$('#listingOptions').removeClass('d-none');"><?php echo _('Options'); ?><i class="material-icons">keyboard_arrow_down</i></div>
+          </div>
+        <?php } ?>
+        <?php if ($termsAndConditions) { ?>
+          <div class="terms-conditions">
+            <div class="mb-3 mt-1 d-none" id="listingTermConditions">
+              <strong><?php echo _('Terms & Conditions'); ?></strong><br />
+              <?php echo $termsAndConditions; ?>
+            </div>
+            <div class="btn btn-secondary mb-4 pl-0 pr-0 pt-0 pb-0" onclick="$(this).remove();$('#listingTermConditions').removeClass('d-none');"><?php echo _('Terms & Conditions'); ?><i class="material-icons">keyboard_arrow_down</i></div>
+          </div>
+        <?php } ?>
+        <?php if ($refundPolicy) { ?>
+          <div class="refund-policy">
+            <div class="mb-3 mt-1 d-none" id="listingRefundPolicy">
+              <strong><?php echo _('Refund Policy'); ?></strong><br />
+              <?php echo $refundPolicy; ?>
+            </div>
+            <div class="btn btn-secondary mb-4 pl-0 pr-0 pt-0 pb-0" onclick="$(this).remove();$('#listingRefundPolicy').removeClass('d-none');"><?php echo _('Refund Policy'); ?><i class="material-icons">keyboard_arrow_down</i></div>
+          </div>
+        <?php } ?>
+        <?php if ($listingImages) { ?>
+          <div class="images mb-3">
+          <?php foreach ($listingImages as $listingImage) { ?>
+            <a data-fancybox="gallery" href="api/image?hash=<?php echo $listingImage['large']; ?>"><img class="mt-1 mb-1 mr-1 ml-1 rounded" src="api/image?hash=<?php echo $listingImage['small']; ?>" alt="<?php echo $listingImage['medium']; ?>" /></a>
+          <?php } ?>
+          </div>
+        <?php } ?>
+        <?php if ($tags) { ?>
+          <div class="mb-3 mt-1">
+            <strong><?php echo _('Tags'); ?></strong><br />
+            <?php foreach ($tags as $tag) { ?>
+              <a class="badge badge-light" href="search?q=<?php echo formatURL($tag); ?>&t=listing"><?php echo $tag; ?></a>
+            <?php } ?>
+          </div>
+        <?php } ?>
+        <?php if ($categories) { ?>
+          <div class="mb-3 mt-1">
+            <strong><?php echo _('Categories'); ?></strong><br />
+            <?php foreach ($categories as $category) { ?>
+              <a class="badge badge-success" href="search?q=<?php echo formatURL($category); ?>&t=listing"><?php echo $category; ?></a>
+            <?php } ?>
+          </div>
+        <?php } ?>
+        <?php if ($listingCurrencies) { ?>
+          <div class="mb-3 mt-1">
+            <strong><?php echo _('Accepted currencies'); ?></strong><br />
+            <?php foreach ($listingCurrencies as $currency) { ?>
+              <span class="badge badge-primary"><?php echo $currency; ?></span>
+            <?php } ?>
+          </div>
+        <?php } ?>
+        <div class="mb-4 mt-5" id="tabs">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a href="#listingOtherContainer" class="nav-link active"><?php echo _('Other'); ?> <span class="badge badge-light"><?php echo $otherTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#listingShippingsContainer" class="nav-link" onclick="Listing.shippings.load('<?php echo $hash; ?>', '#listingShippingsData', '#listingShippingsLoad', '#listingShippingsLoading', false)"><?php echo _('Shipping'); ?> <span class="badge badge-light"><?php echo $shippingsTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#listingModeratorsContainer" class="nav-link" onclick="Listing.moderators.load('<?php echo $hash; ?>', '#listingModeratorsData', '#listingModeratorsLoad', '#listingModeratorsLoading', false)"><?php echo _('Moderators'); ?> <span class="badge badge-light"><?php echo $moderatorsTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#listingMetaContainer" class="nav-link"><?php echo _('Meta'); ?></a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane show active" id="listingOtherContainer" data-hash="<?php echo $hash; ?>" data-peer-id="<?php echo $peerId; ?>">
+              <div id="listingOtherLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="listingOtherData"></div>
+              <div class="text-center">
+                <div id="listingOtherLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Listing.other.load('<?php echo $peerId; ?>', '<?php echo $hash; ?>', '#listingOtherData', '#listingOtherLoad', '#listingOtherLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane show" id="listingShippingsContainer" data-hash="<?php echo $hash; ?>">
+              <div id="listingShippingsLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="listingShippingsData"></div>
+              <div class="text-center">
+                <div id="listingShippingsLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Listing.shippings.load('<?php echo $hash; ?>', '#listingShippingsData', '#listingShippingsLoad', '#listingShippingsLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="listingModeratorsContainer" data-hash="<?php echo $hash; ?>">
+              <div id="listingModeratorsLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="listingModeratorsData"></div>
+              <div class="text-center">
+                <div id="listingModeratorsLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Listing.moderators.load('<?php echo $hash; ?>', '#listingModeratorsData', '#listingModeratorsLoad', '#listingModeratorsLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="listingMetaContainer">
+              <div class="mt-2 mb-2 pt-2 pb-2 pl-3 pr-3">
+                <strong><?php echo _('Hash'); ?></strong><br />
+                <code><?php echo $hash; ?></code>
+              </div>
+              <div class="mt-2 mb-2 pt-2 pb-2 pl-3 pr-3">
+                <strong><?php echo _('Slug'); ?></strong><br />
+                <code class="text-secondary"><?php echo $slug; ?></code>
+              </div>
+              <div class="mt-2 mb-2 pt-2 pb-2 pl-3 pr-3">
+                <strong><?php echo _('Signature'); ?></strong><br />
+                <code class="text-secondary"><?php echo $signature; ?></code>
+              </div>
+              <div class="mt-2 mb-2 pt-2 pb-2 pl-3 pr-3">
+                <strong><?php echo _('Identity public key'); ?></strong><br />
+                <code class="text-secondary"><?php echo $identityPublicKey; ?></code>
+              </div>
+              <div class="mt-2 mb-2 pt-2 pb-2 pl-3 pr-3">
+                <strong><?php echo _('Bitcoin public key'); ?></strong><br />
+                <code class="text-secondary"><?php echo $bitcoinPublicKey; ?></code>
+              </div>
+              <div class="mt-2 mb-2 pt-2 pb-2 pl-3 pr-3">
+                <strong><?php echo _('Bitcoin signature'); ?></strong><br />
+                <code class="text-secondary"><?php echo $bitcoinSig; ?></code>
+              </div>
+              <div class="mt-2 mb-2 pt-2 pb-2 pl-3 pr-3">
+                <strong><?php echo _('Expiry'); ?></strong><br />
+                <code class="text-secondary"><?php echo $expiry; ?></code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php require(PROJECT_DIR . '/controller/module/footer.php'); ?>

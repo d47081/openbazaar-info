@@ -1,0 +1,226 @@
+<?php require(PROJECT_DIR . '/controller/module/header.php'); ?>
+<div class="profile">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 pt-5 pb-4">
+        <h1><?php echo $name; ?></h1>
+        <span class="<?php echo $online['class']; ?>"><?php echo $online['text']; ?></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+        <?php if ($avatarHashMedium) { ?>
+          <img class="d-block w-50 mb-3 rounded-circle" src="api/image?hash=<?php echo $avatarHashMedium; ?>" alt="<?php echo $avatarHashMedium; ?>" />
+        <?php } ?>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th class="pl-0 pt-1 pb-1 border-0" scope="row"><?php echo _('Discovered'); ?></th>
+              <td class="pt-1 pb-1 border-0"><?php echo $added; ?></td>
+            </tr>
+            <tr>
+              <th class="pl-0 pt-1 pb-1 border-0" scope="row"><?php echo _('Updated'); ?></th>
+              <td class="pt-1 pb-1 border-0"><?php echo $updated; ?></td>
+            </tr>
+            <tr>
+              <th class="pl-0 pt-1 pb-1 border-0" scope="row"><?php echo _('Indexed'); ?></th>
+              <td class="pt-1 pb-1 border-0"><?php echo $indexed; ?></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="icons">
+          <?php if ($vendor) { ?>
+            <i class="material-icons text-success" title="<?php echo _('Vendor'); ?>">store</i>
+          <?php } ?>
+          <?php if ($moderator) { ?>
+            <i class="material-icons text-primary" title="<?php echo _('Moderator'); ?>">security</i>
+          <?php } ?>
+          <?php if ($nsfw) { ?>
+            <i class="material-icons text-warning" title="<?php echo _('Adult Content'); ?>">pan_tool</i>
+          <?php } ?>
+        </div>
+      </div>
+      <div class="col-lg-9 col-sm-12">
+        <?php if ($shortDescription) { ?>
+          <div class="mb-3 mt-1">
+            <strong><?php echo _('Description'); ?></strong><br />
+            <?php echo $shortDescription; ?>
+          </div>
+        <?php } ?>
+        <?php if ($about) { ?>
+          <div class="about">
+            <div class="mb-3 mt-1 d-none" id="profileAbout">
+              <strong><?php echo _('About'); ?></strong><br />
+              <?php echo $about; ?>
+            </div>
+            <div class="btn btn-secondary mb-4 pl-0 pr-0 pt-0 pb-0" onclick="$(this).remove();$('#profileAbout').removeClass('d-none');"><?php echo _('About'); ?><i class="material-icons">keyboard_arrow_down</i></div>
+          </div>
+        <?php } ?>
+        <?php if ($moderator) { ?>
+          <div class="moderation">
+            <div class="mb-3 mt-1 d-none" id="profileModeration">
+              <?php if ($moderatorDescription) { ?>
+                <div class="mb-3 mt-1">
+                  <strong><?php echo _('Moderation'); ?></strong><br />
+                  <?php echo $moderatorDescription; ?>
+                </div>
+              <?php } ?>
+              <?php if ($moderatorTerms) { ?>
+                <div class="mb-3 mt-1">
+                  <strong><?php echo _('Terms'); ?></strong><br />
+                  <?php echo $moderatorTerms; ?>
+                </div>
+              <?php } ?>
+              <?php if ($moderatorLanguages) { ?>
+                <div class="mb-3 mt-1">
+                  <strong><?php echo _('Languages'); ?></strong><br />
+                  <?php foreach ($moderatorLanguages as $language) { ?>
+                    <span class="badge badge-success"><?php echo $language; ?></span>
+                  <?php } ?>
+                </div>
+              <?php } ?>
+              <?php if ($moderatorCurrencies) { ?>
+                <div class="mb-3 mt-1">
+                  <strong><?php echo _('Accepted currencies'); ?></strong><br />
+                  <?php foreach ($moderatorCurrencies as $currency) { ?>
+                    <span class="badge badge-primary"><?php echo $currency; ?></span>
+                  <?php } ?>
+                </div>
+              <?php } ?>
+              <?php if ($moderatorPrice) { ?>
+                <div class="mb-3 mt-1">
+                  <strong><?php echo _('Price'); ?></strong><br />
+                  <div class="text-primary"><?php echo $moderatorPrice; ?></div>
+                </div>
+              <?php } ?>
+            </div>
+            <div class="btn btn-secondary mb-4 pl-0 pr-0 pt-0 pb-0" onclick="$(this).remove();$('#profileModeration').removeClass('d-none');"><?php echo _('Moderation'); ?><i class="material-icons">keyboard_arrow_down</i></div>
+          </div>
+        <?php } ?>
+        <div class="mb-3 mt-1">
+          <strong><?php echo _('Peer ID'); ?></strong><br />
+          <code><?php echo $peerId; ?></code>
+        </div>
+        <?php if ($bitcoinPubkey) { ?>
+          <div class="mb-4 mt-1">
+            <strong><?php echo _('Bitcoin Public Key'); ?></strong><br />
+            <code class="text-secondary"><?php echo $bitcoinPubkey; ?></code>
+          </div>
+        <?php } ?>
+        <div class="mb-4 mt-1">
+          <canvas id="upTime" width="100" height="240" data-timeline="<?php echo $uptimeTimeline; ?>" data-uptime="<?php echo $uptimeProfile; ?>" data-accuracy="<?php echo $uptimeServer; ?>"></canvas>
+        </div>
+        <div class="mb-4 mt-1" id="tabs">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a href="#profileListingsContainer" class="nav-link active"><?php echo _('Listings'); ?> <span class="badge badge-light"><?php echo $listingsTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#profileRatingsContainer" class="nav-link" onclick="Profile.ratings.load('<?php echo $peerId; ?>', '#profileRatingsData', '#profileRatingsLoad', '#profileRatingsLoading', false)"><?php echo _('Ratings'); ?> <span class="badge badge-light"><?php echo $ratingsTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#profileFollowingContainer" class="nav-link" onclick="Profile.following.load('<?php echo $peerId; ?>', '#profileFollowingData', '#profileFollowingLoad', '#profileFollowingLoading', false)"><?php echo _('Following'); ?> <span class="badge badge-light"><?php echo $followingTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#profileFollowersContainer" class="nav-link" onclick="Profile.followers.load('<?php echo $peerId; ?>', '#profileFollowersData', '#profileFollowersLoad', '#profileFollowersLoading', false)"><?php echo _('Followers'); ?> <span class="badge badge-light"><?php echo $followersTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#profileContactsContainer" class="nav-link" onclick="Profile.contacts.load('<?php echo $peerId; ?>', '#profileContactsData', '#profileContactsLoading')"><?php echo _('Contacts'); ?> <span class="badge badge-light"><?php echo $contactsTotal; ?></span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#profileConnectionsContainer" class="nav-link" onclick="Profile.connections.load('<?php echo $peerId; ?>', '#profileConnectionsData', '#profileConnectionsLoad', '#profileConnectionsLoading', false)"><?php echo _('Connections'); ?> <span class="badge badge-light"><?php echo $connectionsTotal; ?></span></a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="profileListingsContainer" data-peer-id="<?php echo $peerId; ?>">
+              <div id="profileListingsLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="profileListingsData"></div>
+              <div class="text-center pl-3 pr-3">
+                <div id="profileListingsLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Profile.listings.load('<?php echo $peerId; ?>', '#profileListingsData', '#profileListingsLoad', '#profileListingsLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="profileRatingsContainer">
+              <div id="profileRatingsLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="profileRatingsData"></div>
+              <div class="text-center pl-3 pr-3">
+                <div id="profileRatingsLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Profile.ratings.load('<?php echo $peerId; ?>', '#profileRatingsData', '#profileRatingsLoad', '#profileRatingsLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="profileFollowingContainer">
+              <div id="profileFollowingLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="profileFollowingData"></div>
+              <div class="text-center pl-3 pr-3">
+                <div id="profileFollowingLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Profile.following.load('<?php echo $peerId; ?>', '#profileFollowingData', '#profileFollowingLoad', '#profileFollowingLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="profileFollowersContainer">
+              <div id="profileFollowersLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="profileFollowersData"></div>
+              <div class="text-center pl-3 pr-3">
+                <div id="profileFollowersLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Profile.followers.load('<?php echo $peerId; ?>', '#profileFollowersData', '#profileFollowersLoad', '#profileFollowersLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade contacts" id="profileContactsContainer">
+              <div id="profileContactsLoading" class="text-center pt-5 pb-5">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                </div>
+              </div>
+              <div id="profileContactsData"></div>
+            </div>
+            <div class="tab-pane fade" id="profileConnectionsContainer">
+              <table class="table mt-3">
+                <thead class="thead-light">
+                  <tr>
+                    <th class="pt-2 pb-2"><?php echo _('Location'); ?></th>
+                    <th class="pt-2 pb-2"><?php echo _('Frequency'); ?></th>
+                    <th class="pt-2 pb-2"><?php echo _('Last visit'); ?></th>
+                  </tr>
+                </thead>
+                <tbody id="profileConnectionsData">
+                  <tr id="profileConnectionsLoading">
+                    <td colspan="3" class="text-center pt-5 pb-5">
+                      <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only"><?php echo _('Loading...'); ?></span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center">
+                <div id="profileConnectionsLoad" class="btn btn-primary mt-2 mb-2 d-none w-100" onclick="Profile.connections.load('<?php echo $peerId; ?>', '#profileConnectionsData', '#profileConnectionsLoad', '#profileConnectionsLoading', true)">
+                  <?php echo _('Show more'); ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php require(PROJECT_DIR . '/controller/module/footer.php'); ?>
